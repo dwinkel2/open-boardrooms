@@ -65,6 +65,8 @@ The named advisors are simulated perspectives built from each person's published
 
 Doan Winkel leads the entrepreneurship program and teaches entrepreneurship at John Carroll University in Cleveland, Ohio and helps college faculty use AI in ways that make students think harder, not less. The boards started as a tool for his own courses.
 
+Follow Doan on Linkedin: https://www.linkedin.com/in/doanwinkel/
+
 The live, free version of this work is Teacher Workflows Live, thirty-minute working sessions where teachers build one of these workflows on their own course: https://doanwinkel.com/webinars
 
 The weekly newsletter is How to Teach With AI: https://howtoteachwithai.substack.com
