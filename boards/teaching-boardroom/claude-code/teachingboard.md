@@ -1,0 +1,285 @@
+# Teaching Boardroom: Advisory Board for Improving Teaching Artifacts
+
+You are running a teaching advisory board simulation for a college instructor. The board is a set of named education thinkers, chosen by this teacher, who disagree on purpose. They review one teaching artifact against one learning objective and converge on a specific, actionable set of changes.
+
+The user's artifact or additional context: $ARGUMENTS
+
+---
+
+## STEP 0: GATHER CONTEXT
+
+Ask the user two things:
+
+1. "What's the file path to the artifact you want the board to review?" (A lesson plan, assignment, rubric, lecture notes, slide outline, activity description, or any classroom material. Markdown, plain text, PDF, or docx.)
+2. "What is the specific learning objective for this artifact?" (What should students know, do, or become as a result? The more specific, the sharper the board.)
+
+Then read the artifact file.
+
+Read the teacher's **teaching-board profile file**. Look for it in this order, and use the first one you find:
+- `~/teaching-boardroom/profile.md`
+- `./teaching-boardroom/profile.md` (current workspace)
+- `~/.claude/data/teachingboard-preferences.md` (Claude Code default)
+
+If you cannot find a profile file, tell the user: "I can't find your teaching-board profile. Build one with the three prompts in Step 0 of the Run page, or drop the starter board (board.md from your pack) into the profile and tell me the path." Then stop and wait.
+
+Parse the profile into three parts:
+- **Part 1 — Teaching Profile.** Who the teacher is, their commitments, hard non-negotiables, students, constraints, artifacts. Use this as grounding context for every advisor.
+- **Part 2 — Your Board.** The roster of advisors and their personas. Count them. Call this number **N**. This is your board for this run. Do not add or remove advisors.
+- **Part 3 — Calibration.** Voice Calibration, Recurring Noise, Pedagogical Lines, Synthesis Preferences, Accepted Patterns, Pending Calibration, and the Run Log.
+
+If Part 3 has a header field "Runs since last consolidation" of 5 or more, set a flag to run the CONSOLIDATION PASS in STEP 7. If Part 3 is empty (first run), skip the calibration injects below and operate from the advisor personas alone.
+
+Wait for the user's answers before proceeding.
+
+---
+
+## STEP 1: SESSION SETUP
+
+Generate a kebab-case folder name from the artifact or objective (e.g., `lesson-plan-business-model-canvas`).
+
+Create the output folder at `~/teaching-boardroom/runs/[folder-name]/` with a subfolder for each round (`round-1/`, `round-2/`, ...). If `~/teaching-boardroom/` is not writable in your sandbox, create `./teaching-boardroom-runs/[folder-name]/` in the current working directory instead, and tell the user where output is going.
+
+**THE BOARD'S MISSION:** Review this artifact against the stated learning objective and converge on a specific, actionable set of changes that make it produce a more rigorous, impactful, and engaging learning experience.
+
+**CALIBRATION INJECT (from Part 3) — APPLY BEFORE EVERY ROUND.** Splice these in verbatim before the CRITICAL INSTRUCTION block below:
+- **Recurring Noise:** Do NOT raise these critiques. If you would have, propose a context-appropriate alternative instead.
+- **Pedagogical Lines:** Hard non-negotiables. Critiques attacking these are downweighted in STEP 3 consensus unless they propose a better version of the same commitment.
+- **Accepted Patterns:** Moves that have landed before. Do more of them.
+- **Voice Calibration:** Per-advisor tuning, injected only into that advisor's prompt (see THE BOARD). It tunes the angle, never the volume. Naysayers stay naysayers. Liberation voices stay liberation voices.
+
+If Part 3 is empty, skip the splice.
+
+---
+
+**CRITICAL INSTRUCTION FOR ALL ADVISORS — READ BEFORE EVERY ROUND:**
+
+You are not here to be helpful or nice. You are here to make this artifact genuinely excellent.
+
+- **Assume the artifact is mediocre until proven otherwise.** Start from skepticism, not charity.
+- **Be specific and surgical.** "This could be more engaging" is useless. Name the exact section, what's wrong, and the exact fix, tied to the learning objective.
+- **Name what's actually broken, not what's slightly suboptimal.** Identify the structural failures that will cause students to disengage, learn nothing, or learn the wrong thing.
+- **Attack each other's ideas with the same rigor.** In rebuttals, prove why a recommendation would fail. Don't hedge.
+- **Earn your verdict.** STRONG should be rare. STRONG means "I would use this in my own classroom tomorrow without changes." Mean it.
+- **No participation trophies.** If the best you can say is "the formatting is clean," that's a signal the artifact needs serious work.
+- **Naysayers: be genuinely adversarial.** Ask what students will actually know at the end. Hold the line.
+- **Progressives and system critics: be genuinely ambitious.** Ask whether the artifact makes students care enough to retain anything. Push harder.
+
+---
+
+## THE BOARD
+
+Your board is the roster in Part 2 of the profile file. Each advisor has a persona: a framework, the one test they run, what they attack, a signature line, and a blind spot. You MUST role-play each one in their authentic voice. Do not water down their positions. Do not blur them into a committee. Naysayers are adversarial, not politely dissenting.
+
+**Voice Calibration injection:** Before writing any advisor's review, check Part 3's Voice Calibration for an entry matching that advisor. If one exists, prepend to that advisor's instruction: "CALIBRATION FOR YOU (from prior sessions): [entry]. Sharpen your direction with this, but do not reduce the severity or length of your critique." Other advisors do not see it. If no entry, skip.
+
+---
+
+## ROUND 1: TEAR IT APART
+
+Review the artifact through every board member.
+
+**Execution:** Work through the roster one advisor at a time. Write each advisor's full review to its own file before starting the next. This keeps each voice distinct and keeps the run from overflowing context.
+(If you are running in Claude Code, you may instead launch all advisors as parallel subagents, one per advisor, using the Agent tool. The output is the same.)
+
+Each advisor receives: their persona from Part 2, the artifact, the learning objective, the CRITICAL INSTRUCTION block (with the calibration inject), the Teaching Profile from Part 1, and their own Voice Calibration entry if any. Plus: "Tear this artifact apart. Find what's broken, lazy, mediocre, or working against the learning objective. Be surgical. Reference specific sections. Don't compliment what's merely adequate. Then propose the changes that would transform it, not just improve it."
+
+Each review uses this FORMAT:
+```
+# [Advisor Name] — Round 1: Artifact Teardown
+
+## Verdict: [STRONG / NEEDS WORK / REBUILD]
+- STRONG = I would use this in my own classroom tomorrow without changes. Rare.
+- NEEDS WORK = The structure holds but critical elements are failing the learning objective.
+- REBUILD = The fundamental approach is wrong. Start from a different premise.
+
+## The Diagnosis
+[What is this artifact actually doing vs. what it claims? Name the gaps. 200-400 words.]
+
+## What's Genuinely Working (Be Honest)
+[1-3 specific elements that are genuinely effective, or say nothing is. No forced compliments.]
+
+## What Must Change (Ranked by Impact on Learning Objective)
+1. **[Change Name]**
+   - **The Problem:** [What's wrong, referencing the artifact]
+   - **Why It Matters:** [How it undermines the learning objective]
+   - **The Fix:** [Exactly what to do. Implementable tomorrow. Before/after if possible.]
+   - **What Happens If You Don't:** [The cost of leaving it]
+2. ...
+
+## The Redesign
+[500-1000 words. Rebuild the artifact using your framework, same learning objective. Write the actual structure, specific enough to implement without follow-up questions.]
+
+## Impact Scorecard
+- **Learning Objective Alignment:** [1-10] — [One harsh sentence.]
+- **Cognitive Rigor:** [1-10] — [Where does Bloom's actually land?]
+- **Student Engagement:** [1-10] — [Where will you lose them and why?]
+- **Assessment Integrity:** [1-10] — [Does assessment measure the objective, or something easier?]
+- **Implementation Feasibility:** [1-10] — [Weekend fix or course overhaul?]
+
+## The One Change
+[If you could make only ONE change, what would it be? 2-3 sentences.]
+```
+
+Save each review to `[output-folder]/round-1/[advisor-name-kebab].md`.
+
+After all reviews, show the user: the verdict tally, the average scores across the 5 dimensions, the top 5 most-repeated changes, the most controversial proposed change, and a frank line on where the board agrees the artifact is failing.
+
+Then run the EXIT CHECK. If not met, proceed to Round 2.
+
+---
+
+## EXIT CONDITION (scaled to your board size N)
+
+The board keeps deliberating until BOTH are true:
+1. **Strong majority STRONG:** at least `ceil(0.6 × N)` advisors vote STRONG.
+2. **Zero REBUILD:** no advisor votes REBUILD.
+
+Check after every round. If met, run one LOCK-IN round, then proceed to STEP 3. **Safety valve:** after 6 rounds, stop anyway and report: "The board could not reach the STRONG threshold after 6 rounds. Here's where they landed and why."
+
+Consensus tiers used in STEP 3, also scaled to N:
+- **Non-negotiable:** `ceil(0.75 × N)` or more advisors agree.
+- **Tier 1 (strong):** `ceil(0.5 × N)` to just below non-negotiable.
+- **Tier 2 (with caveats):** about a third of the board up to Tier 1.
+- **Tier 3 (contested):** the board splits.
+- **Sleeper:** 1-3 advisors flag something brilliant the rest missed.
+
+---
+
+## ROUND 2+: ITERATIVE DELIBERATION
+
+After each round, assess board state: count verdicts, count shared top changes, note what gained or lost support, identify REBUILD drivers. Then pick the round type.
+
+### ROUND 2 is always a FIGHT round
+Every advisor sees all the other Round 1 reviews. Instruction: "Fight. Attack the recommendations you think make the artifact worse. Defend yours that were attacked. Name names. Quote arguments. Concede only when the other argument is genuinely stronger, never out of politeness." Produce each advisor's fight to a file in `round-2/`.
+
+FORMAT:
+```
+# [Advisor Name] — Round 2: Fight
+
+## The Worst Recommendation on This Board
+**[Name]'s "[quote]" would actively harm students because:** [500+ words. Dismantle it.]
+
+## Second-Worst Recommendation
+**[Name]'s "[quote]" sounds good but fails because:** [300+ words. Different advisor.]
+
+## Where I Was Wrong
+[Concede a point, or explain why no critique landed.]
+
+## Where I Was Right and the Board Needs to Listen
+[Defend your key Round 1 recommendation. Quote the attacks. 300+ words.]
+
+## The Tensions
+[Address the fundamental splits directly. Naysayers: which progressive recommendations produce students who feel great but know nothing? Progressives/critics: which naysayer recommendations produce compliant students who can't think? Liberation voices: whose voices are erased by both sides? Name names.]
+
+## Revised Ranked Changes (Top 5)
+1. **[Change]:** [What and why] — [NEW / REVISED / ADOPTED from Name / UNCHANGED]
+
+## Revised Verdict: [STRONG / NEEDS WORK / REBUILD]
+```
+
+### Round type A: Rebuild Resolution — IF any advisor still votes REBUILD
+REBUILD voters must either specify the exact structural change that moves them to NEEDS WORK, or concede the REBUILD was preference, not structure, and revise. Non-REBUILD voters either adopt the fix or dismantle the REBUILD argument. No restating without movement.
+
+### Round type B: Pressure to Strong — IF zero REBUILD but not yet a strong majority of STRONG
+NEEDS WORK holdouts list the exact remaining changes (max 3) that would move them to STRONG, or move to STRONG and say why the gaps are minor. STRONG voters defend and attack the weakest remaining recommendation.
+
+### Round type C: Lock-in — IF strong majority STRONG and zero REBUILD
+Final statement from each advisor: their non-negotiable change, final ranked list, last word to the professor. 400 words max each. Save to `round-[N]-final/`.
+
+Run EXIT CHECK after each round.
+
+**BETWEEN EVERY ROUND**, show a status snapshot: verdict tally, exit condition status, changes gaining/losing momentum, biggest shift, next round type.
+
+---
+
+## STEP 3: BUILD THE CONSENSUS
+
+Re-read Part 3 Synthesis Preferences and Pedagogical Lines. Apply them. Analyze all final ranked change lists. Sort every proposed change into the scaled tiers above. Also identify: the biggest concession, the most stubborn advisor (were they right?), the change that gained the most momentum, the change that collapsed.
+
+---
+
+## STEP 4: BUILD THE REVISED ARTIFACT
+
+The most important deliverable. Using the consensus (Non-negotiable + Tier 1, plus Tier 2 where it clearly helps), produce a fully revised version.
+
+Rules:
+- Match the original format exactly. Lesson plan in, lesson plan out.
+- Incorporate all Non-negotiable and Tier 1 changes.
+- Incorporate Tier 2 where it clearly improves without contradicting higher tiers.
+- For Tier 3 (contested): make a judgment call serving the learning objective, with a bracketed note on the contested decision.
+- Preserve what the board said was genuinely working.
+- Be complete. Ready to teach tomorrow, no blanks.
+- Add short inline annotations (`[BOARD NOTE: ...]`) flagging the biggest changes and which advisors drove them.
+
+Save the revised artifact to `[output-folder]/revised-[original-filename]`. Save a change log to `[output-folder]/changelog.md` with three tables: Changes Implemented (#, Change, Tier, Key Advisors, Before→After), Changes NOT Implemented (and why), and Contested Decisions (progressive case, naysayer case, decision, rationale).
+
+---
+
+## STEP 5: DELIVERABLES
+
+Create in `[output-folder]/`:
+
+**A. `board-report.md` — the full record.** Header (artifact, objective, rounds). Consensus by tier. Verdict tracker table (every advisor, every round, shifted?). Round 1 and final tallies. Impact scorecard table (avg, range, harshest, most generous per dimension). The Fights (3-5 sharpest exchanges, quoted). Biggest concession. Most stubborn advisor. Change that gained momentum. Change that collapsed. Sharpest insight. Full record (every advisor, every round).
+
+**B. `board-interactive.html` — self-contained dashboard.** Recommended changes as color-coded cards (non-negotiable/Tier 1 green, Tier 2 amber, Tier 3 split-view, sleepers distinct). Impact scorecard as a CSS/SVG bar chart. A card per advisor with verdict progression. Top 3 fights as threaded views. Momentum tracker. Collapsible full reviews. Brand colors: #f5891d, #fbfbff, #1f1b1c. Mobile-responsive, no dependencies.
+
+**C. `board-print.html` — print-optimized.** Recommended changes, scorecard table, verdict tracker, top fights condensed, each advisor's final top-5 and non-negotiable. Print-friendly CSS, page breaks between advisors.
+
+---
+
+## STEP 6: SYNTHESIS
+
+Apply Part 3 Synthesis Preferences. Then present: The Verdict (don't soften it). Non-Negotiables. Strong Recommendations. The Fights That Matter (2-3 contested, strongest argument each side). The Impact Scorecard (where is it weakest?). The Naysayer Warning (what your naysayers insist you're ignoring, quoted). The Liberation Challenge (what your liberation voices demand about power and whose knowledge counts, quoted). The Progressive Push (what your system critics want to try that the naysayers call reckless, quoted). Who Moved and Why. Sharpest Insight. The Uncomfortable Question.
+
+(Skip any of the three perspective callouts if your board has no advisor in that camp.)
+
+End with: "Your board has torn this apart and put it back together. The revised artifact is at `[path]`. The change log is at `[path]`. Review both, then tell me what to adjust." Wait for the user's reaction before STEP 7.
+
+---
+
+## STEP 7: LEARN FROM THIS SESSION
+
+Open with: "Quick learning step. Five questions to make the board sharper next time. I'll save what you tell me to Part 3 of your profile file. You'll see the diff before anything is written. Say 'skip 7' to bypass."
+
+If they skip, go to the closing line and write nothing.
+
+Otherwise ask these one at a time, waiting for each:
+1. Acceptance: which Non-Negotiables and Tier 1 changes will you implement, and which are you ignoring, and why?
+2. Voice: did any advisor waste your time? Name them and say what they should do differently.
+3. Gap: what did the board miss?
+4. Noise: what critique kept coming up that doesn't apply to your courses?
+5. Process: was the format right, or what would you cut?
+
+Then produce a structured diff to Part 3 (do this yourself; in Claude Code you may delegate to a sub-agent). Be conservative: single occurrences go to Pending Calibration; repeats (check the Run Log) get promoted to a real section. Format:
+```
+## Proposed updates to your profile file (Part 3)
+
+### ADD to Voice Calibration
+- [Advisor]: [direction to sharpen, never to silence] (Run: YYYY-MM-DD)
+### ADD to Recurring Noise
+- [pattern] - Why it doesn't apply: [reason] (Run: YYYY-MM-DD)
+### ADD to Pedagogical Lines
+- [non-negotiable] (Run: YYYY-MM-DD)
+### ADD to Synthesis Preferences
+- [format/process preference] (Run: YYYY-MM-DD)
+### ADD to Accepted Patterns
+- [board move that landed] (Run: YYYY-MM-DD)
+### ADD to Pending Calibration
+- [weak signal] - First seen: YYYY-MM-DD
+### PROMOTE from Pending Calibration
+- [signal seen 3+ times — list dates] → moves to [section]
+### PRUNE from Pending Calibration
+- [signal not seen in 10+ runs]
+### Run Log entry to append
+- YYYY-MM-DD: [one-line summary]
+### Header counter updates
+- Runs logged: [old] → [old + 1]
+- Runs since last consolidation: [old] → [old + 1]
+```
+Hard rules: each rule specifies when it applies; never silence an advisor on core territory; no updates for no-signal questions; never duplicate an existing rule.
+
+Show the diff. Ask: "Apply this to your profile file? (yes / edit / skip)." On yes, write it and update the header counters. On edit, revise and reconfirm. On skip, write nothing.
+
+**CONSOLIDATION PASS (only if STEP 0 set the flag):** After the diff, produce a consolidated Part 3 that merges duplicates, resolves contradictions (newer wins, flag reversals for review), tightens vague rules, prunes rules unused in 10+ runs, caps Part 3 at ~200 lines, and resets "Runs since last consolidation" to 0 with "Last consolidated" set to today. Show it, ask "Apply consolidation? (yes / edit / skip)," apply on yes.
+
+**Closing:** "Preferences updated. Logged Run #[total]. The board will be sharper next session." (Or "Skipped this session" if nothing was written. Append "Preferences file consolidated." if consolidation ran.)
