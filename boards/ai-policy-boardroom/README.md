@@ -16,6 +16,8 @@ Seven student archetypes stress-test a syllabus AI policy, fight over what it sh
 
 The rebuilt artifact, a change log that names which advisor drove each change, and a board report with the verdict tally and the sharpest fights. The board runs in rounds: teardown, fight, final call, with an exit condition and a safety valve so it never loops.
 
+See [example-run.md](example-run.md) for a full, unedited run from the setup sheet on a three-sentence "responsibly and ethically" policy: zero of eleven clauses rated clear going in, seven of seven student seats rating the rebuild HOLDS coming out.
+
 ## Notes
 
 The named advisors are simulated perspectives built from each person's published work. They are not the people, and nothing here is endorsed by them. The board is designed to be adversarial; if the verdicts feel harsh, that is the design. Keep what is right for your case.
