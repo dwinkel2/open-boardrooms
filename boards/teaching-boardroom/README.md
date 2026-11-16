@@ -14,6 +14,8 @@ A board of named education thinkers, chosen by you, reviews one teaching artifac
 
 ## What comes back
 
+See [example-run.md](example-run.md) for a full, unedited run from the setup sheet on a three-criterion rubric: zero of nineteen advisors rated it STRONG going in, twelve of nineteen coming out, and the rubric came back as five yes-or-no checks.
+
 The rebuilt artifact, a change log that names which advisor drove each change, and a board report with the verdict tally and the sharpest fights. The board runs in rounds: teardown, fight, final call, with an exit condition and a safety valve so it never loops.
 
 ## Notes
